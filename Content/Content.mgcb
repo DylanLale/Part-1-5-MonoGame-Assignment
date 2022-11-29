@@ -80,7 +80,13 @@
 /processorParam:TextureFormat=Color
 /build:LeanStart.png
 
-#begin Smooth Criminal.png
+#begin Smooth Criminal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Smooth Criminal.wav
+
+#begin SmoothCriminalTitle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,13 +96,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Smooth Criminal.png;Title.png
-
-#begin Smooth Criminal.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Smooth Criminal.wav
+/build:SmoothCriminalTitle.png
 
 #begin Standing.png
 /importer:TextureImporter

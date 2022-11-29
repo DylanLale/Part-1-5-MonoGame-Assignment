@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Net.Mime;
 
 namespace Part_1_5__MonoGame_Assignment
@@ -21,6 +23,7 @@ namespace Part_1_5__MonoGame_Assignment
         }
         float seconds;
         float startTime;
+        Song MJMusic;
         Texture2D StartTexture;
         Texture2D LeanStartTexture;
         Texture2D LeanMiddleTexture;
@@ -66,14 +69,15 @@ namespace Part_1_5__MonoGame_Assignment
 
         protected override void LoadContent()
         {
+            StartTexture = Content.Load<Texture2D>("SmoothCriminalTitle");
             IntroTexture = Content.Load<Texture2D>("Intro");
             LeanStartTexture = Content.Load<Texture2D>("LeanStart");
             LeanMiddleTexture = Content.Load<Texture2D>("LeanMiddle");
             LeanLowTexture = Content.Load<Texture2D>("LeanLow");
             LeanMiddleAgainTexture = Content.Load<Texture2D>("LeanMiddle2");
             StandingUpTexture = Content.Load<Texture2D>("Standing");
-            StartTexture = Content.Load<Texture2D>("TitleScreen");
             TitleFont = Content.Load<SpriteFont>("Title");
+            //Song MJMusic = Content.Load<Song>("Smooth Criminal");
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -110,10 +114,12 @@ namespace Part_1_5__MonoGame_Assignment
         protected override void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
+            
             if (screen == Screen.Start)
             {
+                //MediaPlayer.Play(MJMusic);
                 _spriteBatch.Draw(StartTexture, StartRect, Color.White);
-                _spriteBatch.DrawString(TitleFont, "Press left click to enter the club", new Vector2(175, 350), Color.White);
+                _spriteBatch.DrawString(TitleFont, "Welcome to the club", new Vector2(275, 150), Color.White);
             }
                 
 
