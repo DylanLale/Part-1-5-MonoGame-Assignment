@@ -72,7 +72,7 @@ namespace Part_1_5__MonoGame_Assignment
             LeanLowTexture = Content.Load<Texture2D>("LeanLow");
             LeanMiddleAgainTexture = Content.Load<Texture2D>("LeanMiddle2");
             StandingUpTexture = Content.Load<Texture2D>("Standing");
-            StartTexture = Content.Load<Texture2D>("Smooth Criminal");
+            StartTexture = Content.Load<Texture2D>("TitleScreen");
             TitleFont = Content.Load<SpriteFont>("Title");
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -89,15 +89,15 @@ namespace Part_1_5__MonoGame_Assignment
 
             if (seconds > 0)
                 screen = Screen.Start;
-               if (seconds > 3)
+               if (seconds > 5)
                 screen = Screen.LeanStart;
-               if (seconds > 4)
+               if (seconds > 6)
                     screen = Screen.LeanMiddle;
-                if (seconds > 5)
-                screen = Screen.LeanLow;
-                if (seconds > 6)
-                screen = Screen.LeanMiddleAgain;
                 if (seconds > 7)
+                screen = Screen.LeanLow;
+                if (seconds > 8)
+                screen = Screen.LeanMiddleAgain;
+                if (seconds > 9)
                     screen = Screen.StandingUp;
 
             

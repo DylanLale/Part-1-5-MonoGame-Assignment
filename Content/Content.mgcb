@@ -90,7 +90,13 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Smooth Criminal.png
+/build:Smooth Criminal.png;Title.png
+
+#begin Smooth Criminal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Smooth Criminal.wav
 
 #begin Standing.png
 /importer:TextureImporter
