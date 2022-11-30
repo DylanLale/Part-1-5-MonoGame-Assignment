@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Net.Mime;
+using System.Reflection.Emit;
 
 namespace Part_1_5__MonoGame_Assignment
 {
@@ -19,11 +20,14 @@ namespace Part_1_5__MonoGame_Assignment
             LeanLow,
             LeanMiddleAgain,
             StandingUp,
-            Start
+            Start,
+            Moonwalk,
+            End
+            
         }
         float seconds;
         float startTime;
-        Song MJMusic;
+        bool songplayed;
         Texture2D StartTexture;
         Texture2D LeanStartTexture;
         Texture2D LeanMiddleTexture;
@@ -31,6 +35,10 @@ namespace Part_1_5__MonoGame_Assignment
         Texture2D LeanMiddleAgainTexture;
         Texture2D StandingUpTexture;
         Texture2D IntroTexture;
+        Texture2D MoonwalkTexture;
+        Texture2D MoonwalkBackground;
+        Texture2D EndTexture;
+        Rectangle EndRect;
         Rectangle StartRect;
         Rectangle IntroRect;
         Rectangle LeanStartRect;
@@ -38,7 +46,11 @@ namespace Part_1_5__MonoGame_Assignment
         Rectangle LeanLowRect;
         Rectangle LeanMiddleAgainRect;
         Rectangle StandingUpRect;
+        Rectangle MoonwalkRect;
+        Rectangle MoonwalkBackgroundRect;
+        Vector2 MoonwalkSpeed;
         Screen screen;
+        SoundEffect MJMusic;
         MouseState mouseState;
         SpriteFont TitleFont;
         public Game1()
@@ -52,6 +64,7 @@ namespace Part_1_5__MonoGame_Assignment
         {
             // TODO: Add your initialization logic here
             screen = Screen.Intro;
+            songplayed = false;
             _graphics.PreferredBackBufferWidth = 800;
             _graphics.PreferredBackBufferHeight = 500;
             startTime = 0;
@@ -62,7 +75,11 @@ namespace Part_1_5__MonoGame_Assignment
             LeanMiddleAgainRect = new Rectangle(0, 0, 800, 500);
             StandingUpRect = new Rectangle(0, 0, 800, 500);
             StartRect = new Rectangle(0, 0, 800, 500);
-            
+            MoonwalkBackgroundRect = new Rectangle(0, 0, 800, 500);
+            EndRect = new Rectangle(0, 0, 800, 500);
+            MoonwalkRect = new Rectangle(700, 350, 79, 130);
+            MoonwalkSpeed = new Vector2(-2, 0);
+
 
             base.Initialize();
         }
@@ -76,8 +93,11 @@ namespace Part_1_5__MonoGame_Assignment
             LeanLowTexture = Content.Load<Texture2D>("LeanLow");
             LeanMiddleAgainTexture = Content.Load<Texture2D>("LeanMiddle2");
             StandingUpTexture = Content.Load<Texture2D>("Standing");
+            MoonwalkTexture = Content.Load<Texture2D>("Moonwalk");
             TitleFont = Content.Load<SpriteFont>("Title");
-            //Song MJMusic = Content.Load<Song>("Smooth Criminal");
+            MoonwalkBackground = Content.Load<Texture2D>("White Background");
+            EndTexture = Content.Load<Texture2D>("on-toes");
+            MJMusic = Content.Load<SoundEffect>("Smooth Criminal");
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -90,10 +110,16 @@ namespace Part_1_5__MonoGame_Assignment
                 Exit();
             mouseState = Mouse.GetState();
             seconds = (float)gameTime.TotalGameTime.TotalSeconds - startTime;
+            if (!songplayed)
+            {
+                songplayed = true;
+                MJMusic.Play();
+            }
+
 
             if (seconds > 0)
                 screen = Screen.Start;
-               if (seconds > 5)
+               if (seconds > 5 || mouseState.LeftButton == ButtonState.Pressed)
                 screen = Screen.LeanStart;
                if (seconds > 6)
                     screen = Screen.LeanMiddle;
@@ -103,8 +129,25 @@ namespace Part_1_5__MonoGame_Assignment
                 screen = Screen.LeanMiddleAgain;
                 if (seconds > 9)
                     screen = Screen.StandingUp;
+                if (seconds > 10)
+                {
+                screen = Screen.Moonwalk;
+                MoonwalkRect.X += (int)MoonwalkSpeed.X;
+                }
+            if (MoonwalkRect.Right > 800 || MoonwalkRect.Left < 0)
+            {
+                screen = Screen.End;
+            }
+            //ending from song
+            if (seconds > 150)
+            {
+                screen = Screen.End;
+                Exit();
 
-            
+            }
+                
+                
+
 
             // TODO: Add your update logic here
 
@@ -114,10 +157,11 @@ namespace Part_1_5__MonoGame_Assignment
         protected override void Draw(GameTime gameTime)
         {
             _spriteBatch.Begin();
-            
+           
+
             if (screen == Screen.Start)
             {
-                //MediaPlayer.Play(MJMusic);
+                
                 _spriteBatch.Draw(StartTexture, StartRect, Color.White);
                 _spriteBatch.DrawString(TitleFont, "Welcome to the club", new Vector2(275, 150), Color.White);
             }
@@ -152,6 +196,15 @@ namespace Part_1_5__MonoGame_Assignment
             else if (screen == Screen.StandingUp)
             {
                 _spriteBatch.Draw(StandingUpTexture, StandingUpRect, Color.White);
+            }
+            else if (screen == Screen.Moonwalk)
+            {
+                _spriteBatch.Draw(MoonwalkBackground, MoonwalkBackgroundRect, Color.White);
+                _spriteBatch.Draw(MoonwalkTexture, MoonwalkRect, Color.White);
+            }
+            else if (screen == Screen.End)
+            {
+                _spriteBatch.Draw(EndTexture, EndRect, Color.White);
             }
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
